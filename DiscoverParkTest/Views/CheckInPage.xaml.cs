@@ -1,4 +1,5 @@
 ﻿using DiscoverParkTest.Models;
+using DiscoverParkTest.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace DiscoverParkTest.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CheckInPage : ContentPage
     {
-        private CustomerDTO customer;
+        CheckInPageVM checkInPageVM;
 
         public CheckInPage()
         {
@@ -23,8 +24,8 @@ namespace DiscoverParkTest.Views
         public CheckInPage(CustomerDTO customer)
         {
             InitializeComponent();
-
-            this.customer = customer;
+            checkInPageVM = (CheckInPageVM)Resources["vm"];
+            checkInPageVM.Customer = customer;
         }
     }
 }

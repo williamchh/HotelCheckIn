@@ -53,7 +53,7 @@ namespace DiscoverParkTest.ViewModels
 
                 using (HttpClient client = new HttpClient())
                 {
-                    var uri = $"https://discoverycodetest.azurewebsites.net/api/NPS/Customers?ParkCode={ParkCode}&Arriving=2020-12-02";
+                    var uri = $"https://discoverycodetest.azurewebsites.net/api/NPS/Customers?ParkCode={ParkCode}&Arriving={_arrvingDate}";
 
                     var response = client.GetAsync(uri).GetAwaiter().GetResult();
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)

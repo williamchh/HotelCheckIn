@@ -1,4 +1,5 @@
 ﻿using DiscoverParkTest.Models;
+using DiscoverParkTest.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,18 +12,29 @@ namespace DiscoverParkTest
 {
     public partial class MainPage : ContentPage
     {
-        private CustomerDTO customer;
-
+        //private CustomerDTO customer;
+        MainPageVM mainPageVM;
         public MainPage()
         {
             InitializeComponent();
+            mainPageVM = (MainPageVM)Resources["vm"];
         }
 
-        public MainPage(CustomerDTO customer)
-        {
-            InitializeComponent();
+        //public MainPage(CustomerDTO customer)
+        //{
+        //    InitializeComponent();
 
-            this.customer = customer;
+        //    this.customer = customer;
+        //}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (mainPageVM.Customers.Count > 0)
+            {
+                mainPageVM.GetCustomers();
+            }
+
         }
     }
 }

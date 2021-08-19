@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:DiscoverParkTest.ViewModels"
              x:Class="DiscoverParkTest.Views.CheckInPage">
+    <ContentPage.Resources>
+        <vm:CheckInPageVM x:Key="vm" />
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+        <StackLayout BindingContext="{StaticResource vm}">
+            <Label Text="{Binding Customer.GuestName}"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Button Text="Check In" Command="{Binding ReturnPreviousPage}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

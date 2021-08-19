@@ -21,6 +21,7 @@ namespace DiscoverParkTest.Behaviors
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             CustomerDTO customer = (CustomerDTO)listView.SelectedItem;
+            //Application.Current.MainPage.Navigation.PushModalAsync(new CheckInPage(customer));
             Application.Current.MainPage.Navigation.PushAsync(new CheckInPage(customer));
         }
 
