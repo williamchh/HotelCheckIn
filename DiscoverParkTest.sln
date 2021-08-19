@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverParkTest.Android", "DiscoverParkTest.Android\DiscoverParkTest.Android.csproj", "{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverParkTest", "DiscoverParkTest\DiscoverParkTest.csproj", "{441E99AB-269A-45E2-87E1-AD7CD919D86D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4EFC7EC-35FD-4CB5-AB05-6F6A2E5FD746}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{441E99AB-269A-45E2-87E1-AD7CD919D86D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441E99AB-269A-45E2-87E1-AD7CD919D86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441E99AB-269A-45E2-87E1-AD7CD919D86D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{441E99AB-269A-45E2-87E1-AD7CD919D86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441E99AB-269A-45E2-87E1-AD7CD919D86D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441E99AB-269A-45E2-87E1-AD7CD919D86D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F30CDB6D-50FC-4A28-AF9A-D4A47F7B193E}
+	EndGlobalSection
+EndGlobal
