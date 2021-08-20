@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:DiscoverParkTest.ViewModels"
-             xmlns:behavior="clr-namespace:DiscoverParkTest.Behaviors"
              x:Class="DiscoverParkTest.MainPage">
-
+            <!--xmlns:behavior="clr-namespace:DiscoverParkTest.Behaviors"-->
+    
     <ContentPage.Resources>
         <vm:MainPageVM x:Key="vm" />
     </ContentPage.Resources>
@@ -30,17 +30,27 @@
                 <Label Grid.Column="0" Grid.Row="1" 
                         Text="Arriving Date" FontSize="18" 
                         VerticalOptions="Center" />
-                <DatePicker Grid.Column="1" Grid.Row="1"  
-                            Date="{Binding ArrvingDate}"/>
+                <Entry Grid.Column="1" Grid.Row="1"  
+                       Placeholder="YYYY-MM-DD"
+                       Text="{Binding ArrivingDate}"/>
 
                 <Button Grid.ColumnSpan="2" Grid.Row="2" 
                         CornerRadius="15" Text="Search"
                         Command="{Binding SearchAndValidation}"/>
             </Grid>
-            <ListView ItemsSource="{Binding Customers}"  VerticalOptions="Center">
-                <ListView.Behaviors>
+            
+            <!--Customers Observable Collection List View-->
+            <ListView 
+                ItemsSource="{Binding Customers}"
+                SelectedItem="{Binding Customer}" 
+                RowHeight="20"
+                VerticalOptions="Center">
+
+                <!--anohter approach of selected item from list view-->
+                <!--<ListView.Behaviors>
                     <behavior:ListViewBehavior />
-                </ListView.Behaviors>
+                </ListView.Behaviors>-->
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -48,14 +58,12 @@
                                 <StackLayout>
                                     <Label Text="{Binding GuestName}" />
                                     <StackLayout Orientation="Horizontal">
-                                        
                                         <Label Text="{Binding Arrived}" />
                                         <Label Text="{Binding Depart}" />
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
-                        <!--<Label Text="{Binding GuestMobile}" TextColor="Black" />-->
 
                     </DataTemplate>
                 </ListView.ItemTemplate>

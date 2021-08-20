@@ -5,24 +5,38 @@ using System.Net.Http;
 using Xamarin.Forms;
 using Newtonsoft.Json;
 using DiscoverParkTest.Models;
+using DiscoverParkTest.Views;
+using DiscoverParkTest.ViewModels.Utils;
 
 namespace DiscoverParkTest.ViewModels
 {
     class MainPageVM : INotifyPropertyChanged
     {
         public ObservableCollection<CustomerDTO> Customers { get; set; }
-        private string parkCode;
-        private DateTime arrivingDate;
+        private CustomerDTO customer { get; set; }
+        private string parkCode = string.Empty;
+        private string arrivingDate = string.Empty;
 
         public MainPageVM()
         {
             Customers = new ObservableCollection<CustomerDTO>();
             SearchAndValidation = new Command(GetCustomers);
-            arrivingDate = DateTime.Today;
-            parkCode = string.Empty;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public CustomerDTO Customer
+        {
+            get => customer;
+            set
+            {
+                if (customer != value)
+                {
+                    customer = value;
+                    Application.Current.MainPage.Navigation.PushAsync(new CheckInPage(value));
+                }
+            }
+        }
 
         public string ParkCode
         {
@@ -33,13 +47,13 @@ namespace DiscoverParkTest.ViewModels
                 OnPropertychanged(nameof(ParkCode));
             }
         }
-        public DateTime ArrvingDate
+        public string ArrivingDate
         {
             get => arrivingDate;
             set
             {
                 arrivingDate = value;
-                OnPropertychanged(nameof(ArrvingDate));
+                OnPropertychanged(nameof(ArrivingDate));
             }
         }
 
@@ -49,11 +63,10 @@ namespace DiscoverParkTest.ViewModels
             
             if (ValidateInputs())
             {
-                string _arrvingDate = arrivingDate.ToString("yyyy-MM-dd");
-
                 using (HttpClient client = new HttpClient())
                 {
-                    var uri = $"https://discoverycodetest.azurewebsites.net/api/NPS/Customers?ParkCode={ParkCode}&Arriving={_arrvingDate}";
+                    var uri = $"{Urls.UrlConn}{Urls.NeedToBeSpoken}?ParkCode={parkCode}&Arriving={arrivingDate}";
+                    //$"https://discoverycodetest.azurewebsites.net/api/NPS/Customers?ParkCode={ParkCode}&Arriving={_arrvingDate}";
 
                     var response = client.GetAsync(uri).GetAwaiter().GetResult();
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -83,7 +96,10 @@ namespace DiscoverParkTest.ViewModels
             }
         }
 
-        private bool ValidateInputs() => parkCode.Trim() != "";
+        private bool ValidateInputs()
+        {
+            return StringMatch.MatchDateFormat(arrivingDate) && string.IsNullOrEmpty(parkCode);
+        }
 
         private void OnPropertychanged(string propertyName)
         {
