@@ -7,6 +7,9 @@ using Xamarin.Forms;
 
 namespace DiscoverParkTest.Behaviors
 {
+    /// <summary>
+    ///  another approach of select items, but it is not used in this app 
+    /// </summary>
     public class ListViewBehavior : Behavior<ListView>
     {
         ListView listView;

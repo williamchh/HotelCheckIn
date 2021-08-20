@@ -14,8 +14,8 @@ namespace DiscoverParkTest.ViewModels
     {
         public ObservableCollection<CustomerDTO> Customers { get; set; }
         private CustomerDTO customer { get; set; }
-        private string parkCode = string.Empty;
-        private string arrivingDate = string.Empty;
+        private ValidateObj<string> parkCode = new ValidateObj<string>(ValidateType.parkCode, string.Empty);
+        private ValidateObj<string> arrivingDate = new ValidateObj<string>(ValidateType.dateTime, string.Empty);
 
         public MainPageVM()
         {
@@ -33,21 +33,22 @@ namespace DiscoverParkTest.ViewModels
                 if (customer != value)
                 {
                     customer = value;
-                    Application.Current.MainPage.Navigation.PushAsync(new CheckInPage(value));
+                    _ = Application.Current.MainPage.Navigation.PushAsync(new CheckInPage(value));
                 }
             }
         }
+        
 
-        public string ParkCode
+        public ValidateObj<string> ParkCode
         {
             get => parkCode;
             set
             {
-                parkCode = value.ToUpper();
+                parkCode.Value = ((string)value.Value).ToUpper();
                 OnPropertychanged(nameof(ParkCode));
             }
         }
-        public string ArrivingDate
+        public ValidateObj<string> ArrivingDate
         {
             get => arrivingDate;
             set
@@ -65,7 +66,7 @@ namespace DiscoverParkTest.ViewModels
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    var uri = $"{Urls.UrlConn}{Urls.NeedToBeSpoken}?ParkCode={parkCode}&Arriving={arrivingDate}";
+                    var uri = $"{Urls.UrlConn}{Urls.NeedToBeSpoken}?ParkCode={parkCode.Value}&Arriving={arrivingDate.Value}";
                     //$"https://discoverycodetest.azurewebsites.net/api/NPS/Customers?ParkCode={ParkCode}&Arriving={_arrvingDate}";
 
                     var response = client.GetAsync(uri).GetAwaiter().GetResult();
@@ -98,7 +99,7 @@ namespace DiscoverParkTest.ViewModels
 
         private bool ValidateInputs()
         {
-            return StringMatch.MatchDateFormat(arrivingDate) && string.IsNullOrEmpty(parkCode);
+            return StringMatch.MatchDateFormat(arrivingDate.Value) && !string.IsNullOrWhiteSpace(parkCode.Value);
         }
 
         private void OnPropertychanged(string propertyName)
