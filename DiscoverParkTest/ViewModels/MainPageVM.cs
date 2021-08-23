@@ -15,10 +15,9 @@ namespace DiscoverParkTest.ViewModels
 {
     class MainPageVM : INotifyPropertyChanged
     {
-        
-        // view list customers source
-        public ObservableCollection<CustomerDTO> Customers { get; set; }
+
         private CustomerDTO customer { get; set; }
+        private ObservableCollection<CustomerDTO> customers;
         private ResponseMessage message = new ResponseMessage();
         private ShowComponent indicator = new ShowComponent();
         private MainPageModel mainPageModel = new MainPageModel();
@@ -63,6 +62,17 @@ namespace DiscoverParkTest.ViewModels
         {
             get => mainPageModel;
             set => mainPageModel = value;
+        }
+
+        // view list customers source
+        public ObservableCollection<CustomerDTO> Customers
+        {
+            get => customers;
+            set
+            {
+                customers = value;
+                OnPropertychanged();
+            }
         }
 
         public string ParkCode
@@ -126,6 +136,9 @@ namespace DiscoverParkTest.ViewModels
             // reset and hide buttom error message, if there is one
             Message = new ResponseMessage();
 
+            // clear customers collection before query constomer from api
+            Customers.Clear();
+
             // logic layer validate input value
             // if not valid stop here
             if (!ValidateInputs())
@@ -140,9 +153,6 @@ namespace DiscoverParkTest.ViewModels
                 Message = new ResponseMessage(StatusMessages.NoNetwork, 30);
                 return;
             }
-
-            // clear customers collection before query constomer from api
-            Customers.Clear();
 
             // query customer collection from api
             GetCustomers();
@@ -169,7 +179,7 @@ namespace DiscoverParkTest.ViewModels
                 case System.Net.HttpStatusCode.OK:
                     string result = response.Content
                         .ReadAsStringAsync().Result;
-                    ResponseToCustomers(result);
+                    Customers = ResponseToCustomers(result);
                     break;
 
                 default:
@@ -191,21 +201,23 @@ namespace DiscoverParkTest.ViewModels
         }
 
         // convert response content into customers collection
-        private void ResponseToCustomers(string result)
+        private ObservableCollection<CustomerDTO> ResponseToCustomers(string result)
         {
+            ObservableCollection<CustomerDTO> _customers = new ObservableCollection<CustomerDTO>();
             // add retrieved customer to customers' collection
             try
             {
-                var _customers = JsonConvert.DeserializeObject<ObservableCollection<CustomerDTO>>(result);
-                foreach (CustomerDTO customer in _customers)
+                var _obCustomers = JsonConvert.DeserializeObject<ObservableCollection<CustomerDTO>>(result);
+                foreach (CustomerDTO customer in _obCustomers)
                 {
-                    Customers.Add(customer);
+                    _customers.Add(customer);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
             }
+            return _customers;
         }
 
         // validate from business layer before querying api
