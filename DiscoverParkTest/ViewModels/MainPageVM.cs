@@ -21,9 +21,7 @@ namespace DiscoverParkTest.ViewModels
         private CustomerDTO customer { get; set; }
         private ResponseMessage message = new ResponseMessage();
         private ShowComponent indicator = new ShowComponent();
-        private QueryCustomer queryCustomer = new QueryCustomer();
-        private bool parkCodeError;
-        private bool arrivingDateError;
+        private MainPageModel mainPageModel = new MainPageModel();
 
         public event PropertyChangedEventHandler PropertyChanged;
         IApiConsume _apiConsume = DependencyService.Get<IApiConsume>();
@@ -36,6 +34,13 @@ namespace DiscoverParkTest.ViewModels
 
         // button command
         public Command SearchAndValidation { get; set; }
+
+        // check if there is any input errors
+        // if not returen true
+        internal bool TriggerLoadingIndicator()
+        {
+            return ParkCodeError && ArrivingDateError && !Message.IsVisible;
+        }
 
         // list view selected customer
         public CustomerDTO Customer
@@ -54,20 +59,30 @@ namespace DiscoverParkTest.ViewModels
         }
 
         // main page query model
-        public QueryCustomer QueryCustomer
+        public MainPageModel MainPageModel
         {
-            get => queryCustomer;
-            set => queryCustomer = value;
+            get => mainPageModel;
+            set => mainPageModel = value;
+        }
+
+        public string ParkCode
+        {
+            get => MainPageModel.ParkCode;
+            set
+            {
+                MainPageModel.ParkCode = value.ToUpper();
+                OnPropertychanged();
+            }
         }
 
 
         // control park code error message
         public bool ParkCodeError
         {
-            get => parkCodeError;
+            get => MainPageModel.ParkCodeError;
             set
             {
-                parkCodeError = value;
+                MainPageModel.ParkCodeError = value;
                 OnPropertychanged();
             }
         }
@@ -75,10 +90,10 @@ namespace DiscoverParkTest.ViewModels
         // control arriving date error message
         public bool ArrivingDateError
         {
-            get => arrivingDateError;
+            get => MainPageModel.ArrivingDateError;
             set
             {
-                arrivingDateError = value;
+                MainPageModel.ArrivingDateError = value;
                 OnPropertychanged();
             }
         }
@@ -139,7 +154,7 @@ namespace DiscoverParkTest.ViewModels
             Customers.Clear();
 
             // assemble url and end point
-            var _url = $"{Uris.UrlConn}{Uris.NeedToBeSpoken}?ParkCode={queryCustomer.ParkCode}&Arriving={queryCustomer.ArrivingDate}";
+            var _url = $"{Uris.UrlConn}{Uris.NeedToBeSpoken}?ParkCode={mainPageModel.ParkCode}&Arriving={mainPageModel.ArrivingDate}";
 
             // quering api
             var response = await _apiConsume.Get(_url);
@@ -196,8 +211,8 @@ namespace DiscoverParkTest.ViewModels
         // validate from business layer before querying api
         private bool ValidateInputs()
         {
-            ArrivingDateError = ValidateStringFormat.MatchDateFormat(queryCustomer.ArrivingDate);
-            ParkCodeError = ValidateStringFormat.MatchParkCodeFormat(queryCustomer.ParkCode);
+            ArrivingDateError = ValidateStringFormat.MatchDateFormat(mainPageModel.ArrivingDate);
+            ParkCodeError = ValidateStringFormat.MatchParkCodeFormat(mainPageModel.ParkCode);
             return ArrivingDateError && ParkCodeError;
         }
 

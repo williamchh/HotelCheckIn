@@ -39,7 +39,7 @@ namespace DiscoverParkTest
         private void BtnSearch_Clicked(object sender, EventArgs e)
         {
             // if all the inputs are correct, start loading indicator before call api
-            if (mainPageVM.ParkCodeError && mainPageVM.ArrivingDateError && !mainPageVM.Message.IsVisible)
+            if (mainPageVM.TriggerLoadingIndicator())
             {
                 mainPageVM.Indicator = new ShowComponent(25);
             }
