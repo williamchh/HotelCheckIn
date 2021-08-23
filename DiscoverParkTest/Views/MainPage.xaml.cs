@@ -20,21 +20,29 @@ namespace DiscoverParkTest
             mainPageVM = (MainPageVM)Resources["vm"];
         }
 
-        //public MainPage(CustomerDTO customer)
-        //{
-        //    InitializeComponent();
-
-        //    this.customer = customer;
-        //}
-
+        /// <summary>
+        /// when page shows up, load the following
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            // only query customers when customers list's count is greater than zero
+            // which means only checking page pops following code can be executed
             if (mainPageVM.Customers.Count > 0)
             {
                 mainPageVM.GetCustomers();
             }
 
+        }
+
+        private void BtnSearch_Clicked(object sender, EventArgs e)
+        {
+            // if all the inputs are correct, start loading indicator before call api
+            if (mainPageVM.ParkCodeError && mainPageVM.ArrivingDateError && !mainPageVM.Message.IsVisible)
+            {
+                mainPageVM.Indicator = new ShowComponent(25);
+            }
         }
     }
 }

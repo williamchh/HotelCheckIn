@@ -2,72 +2,146 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:DiscoverParkTest.ViewModels"
+             xmlns:vld="http://xamarin.com/schemas/2020/toolkit"
              x:Class="DiscoverParkTest.MainPage">
             <!--xmlns:behavior="clr-namespace:DiscoverParkTest.Behaviors"-->
+
+    <NavigationPage.TitleView>
+        <Label Text="Search Customer" Style="{StaticResource NavigationTitle}" />
+    </NavigationPage.TitleView>
     
     <ContentPage.Resources>
-        <vm:MainPageVM x:Key="vm" />
+        <ResourceDictionary>
+            <vm:MainPageVM x:Key="vm" />
+            <vld:InvertedBoolConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout Margin="15" BindingContext="{StaticResource vm}">
-            <Grid ColumnDefinitions="*, 2*" RowDefinitions="*, *, *, auto" HeightRequest="250">
-                    
-                
-            <!--Park Code-->
-            
-                <Label Grid.Column="0" Grid.Row="0" 
-                        Text="ParkCode" FontSize="18" 
-                        VerticalOptions="Center"
-                        />
-                <Entry Grid.Column="1" Grid.Row="0" 
-                        Placeholder="Park Code" 
-                        Text="{Binding ParkCode.Value, Mode=TwoWay}"/>
-                    
-                
-            <!--Arrving Date-->
-            
-                <Label Grid.Column="0" Grid.Row="1" 
-                        Text="Arriving Date" FontSize="18" 
-                        VerticalOptions="Center" />
-                <Entry Grid.Column="1" Grid.Row="1"  
-                       Placeholder="YYYY-MM-DD"
-                       Text="{Binding ArrivingDate.Value, Mode=TwoWay}"/>
+            <Grid RowDefinitions="2*, 3*">
+                <Grid Grid.Row="0" ColumnDefinitions="*, 2*" RowDefinitions="4*, *, 4*, *, 5*" HeightRequest="550">
 
-                <Button Grid.ColumnSpan="2" Grid.Row="2" 
-                        CornerRadius="15" Text="Search"
-                        Command="{Binding SearchAndValidation}"/>
+
+                    <!--Park Code-->
+                    <Label Grid.Column="0" Grid.Row="0" 
+                           FontSize="18" VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Park Code" />
+                                <Span Text=" *" TextColor="Red" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Entry Grid.Column="1" Grid.Row="0" 
+                            Placeholder="Park Code" 
+                            Text="{Binding QueryCustomer.ParkCode}">
+                        <Entry.Behaviors>
+                            <vld:TextValidationBehavior 
+                                MinimumLength="4" 
+                                MaximumLength="4" 
+                                Flags="ValidateOnUnfocusing"
+                                IsValid="{Binding ParkCodeError}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                
+                    <!--Invalid park code error message-->
+                    <Label 
+                           Grid.ColumnSpan="2" Grid.Row="1"
+                           Style="{StaticResource ErrorLable}"
+                           Text="* Please Enter 4 Characters Park Code" 
+                           IsVisible="{Binding ParkCodeError, Converter={StaticResource invertBoolConverter}}" />
+
+
+                    <!--Arrving Date-->
+
+                    <Label Grid.Column="0" Grid.Row="2" 
+                           FontSize="18" VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Arriving Date" />
+                                <Span Text=" *" TextColor="Red" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Entry Grid.Column="1" Grid.Row="2"  
+                           Placeholder="YYYY-MM-DD"
+                           Text="{Binding QueryCustomer.ArrivingDate}">
+
+                        <Entry.Behaviors>
+                            <vld:TextValidationBehavior
+                                MinimumLength="10" MaximumLength="10"
+                                Flags="ValidateOnUnfocusing"
+                                RegexPattern="([20]{2}[2-9]{1}[0-9]{1}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"
+                                IsValid="{Binding ArrivingDateError}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                
+                    <!--invalid arriving date error message-->
+                    <Label 
+                           Grid.ColumnSpan="2" Grid.Row="3"
+                           Style="{StaticResource ErrorLable}"
+                           Text="* Date Format 20YY-MM-DD (Must After Year 2020)" 
+                           IsVisible="{Binding ArrivingDateError, Converter={StaticResource invertBoolConverter}}" />
+                
+                    <!--Submit button-->
+                    <Button Grid.ColumnSpan="2" Grid.Row="4" 
+                            Text="Search" FontSize="15" 
+                            Clicked="BtnSearch_Clicked"
+                            Command="{Binding SearchAndValidation}"/>
+                </Grid>
+
+                <StackLayout Grid.Row="1">
+                    <!--Empty customers list error message-->
+                    <Label
+                        x:Name="ErrorLabel"
+                        Text="{Binding Message.Message}"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource ErrorLable}"
+                        HeightRequest="{Binding Message.HeightRequest}"
+                        IsVisible="{Binding Message.IsVisible}" />
+
+                    <!--Loading indicator-->
+                    <ActivityIndicator 
+                        Color="PowderBlue"
+                        IsRunning="{Binding Indicator.IsVisible}" 
+                        IsVisible="{Binding Indicator.IsVisible}"
+                        HeightRequest="{Binding Indicator.HeightRequest}"/>
+   
+            
+
+
+                    <!--Customers Observable Collection List View-->
+                    <ListView 
+                        ItemsSource="{Binding Customers}"
+                        SelectedItem="{Binding Customer}" 
+                        Margin="15"
+                        VerticalOptions="Center">
+
+                        <!--anohter approach of selected item from list view-->
+                        <!--<ListView.Behaviors>
+                            <behavior:ListViewBehavior />
+                        </ListView.Behaviors>-->
+                
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <StackLayout>
+                                            <Label Text="{Binding GuestName}" />
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Arrived}" />
+                                                <Label Text="{Binding Depart}" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </ViewCell.View>
+                                </ViewCell>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
             </Grid>
-            
-            <!--Customers Observable Collection List View-->
-            <ListView 
-                ItemsSource="{Binding Customers}"
-                SelectedItem="{Binding Customer}" 
-                RowHeight="20"
-                VerticalOptions="Center">
-
-                <!--anohter approach of selected item from list view-->
-                <!--<ListView.Behaviors>
-                    <behavior:ListViewBehavior />
-                </ListView.Behaviors>-->
-                
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout>
-                                    <Label Text="{Binding GuestName}" />
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Arrived}" />
-                                        <Label Text="{Binding Depart}" />
-                                    </StackLayout>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
         </StackLayout>
     </ContentPage.Content>
 

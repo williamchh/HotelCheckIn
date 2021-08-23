@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DiscoverParkTest.Services;
+using DiscoverParkTest.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,6 +11,9 @@ namespace DiscoverParkTest
         public App()
         {
             InitializeComponent();
+
+            // register the quering api to the dependency
+            DependencyService.Register<IApiConsume, ApiConsume>();
 
             MainPage = new NavigationPage(new MainPage());
         }
