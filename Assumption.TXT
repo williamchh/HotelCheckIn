@@ -1,0 +1,7 @@
+1. This application is used for working staff check in for customer scenario.
+	After customer arrive at park site, staff enter park code and date ( the date customer arrived)
+	Then staff selects correct customer and ask customer for the email
+	Then a notification or a reciept will be send to customer's email, which is not in this application scope
+	
+2. The park code is 4 characters only, may include numbers
+3. Arriving Date is no late that year 2020
