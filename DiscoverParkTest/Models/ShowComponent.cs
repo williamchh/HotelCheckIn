@@ -3,11 +3,19 @@ namespace DiscoverParkTest.Models
 {
     public class ShowComponent
     {
+        /// <summary>
+        /// component IsVisible false, hide the height to free up screen space
+        /// </summary>
         public ShowComponent()
         {
             IsVisible = false;
             HeightRequest = 0;
         }
+
+        /// <summary>
+        /// turn on IsVisible and give component a height
+        /// </summary>
+        /// <param name="heightRequest">component request height</param>
         public ShowComponent(double heightRequest)
         {
             IsVisible = true;

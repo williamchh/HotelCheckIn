@@ -25,6 +25,11 @@ namespace DiscoverParkTest.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         IApiConsume _apiConsume = DependencyService.Get<IApiConsume>();
 
+        /// <summary>
+        /// Main page constructor
+        /// create a new observable collection of customerDTO
+        /// bind button command with action
+        /// </summary>
         public MainPageVM()
         {
             Customers = new ObservableCollection<CustomerDTO>();

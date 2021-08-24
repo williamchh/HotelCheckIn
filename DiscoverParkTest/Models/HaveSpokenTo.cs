@@ -9,7 +9,14 @@ namespace DiscoverParkTest.Models
     /// </summary>
     public class HaveSpokenTo
     {
+        /// <summary>
+        /// selected customerDTO reservation ID
+        /// </summary>
         public string ResId { get; set; }
+
+        /// <summary>
+        /// input user email
+        /// </summary>
         public string UserEmail { get; set; }
     }
 }

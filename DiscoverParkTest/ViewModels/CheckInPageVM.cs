@@ -27,6 +27,10 @@ namespace DiscoverParkTest.ViewModels
             CommandCheckIn = new Command(CheckInWithEmail);
         }
 
+        /// <summary>
+        /// used for pass in selected customerDTO
+        /// </summary>
+        /// <param name="customer">selected customerDTO</param>
         public CheckInPageVM(CustomerDTO customer)
         {
             this.customer = customer;
