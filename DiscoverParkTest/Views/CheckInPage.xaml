@@ -5,9 +5,6 @@
              xmlns:vld="http://xamarin.com/schemas/2020/toolkit"
              x:Class="DiscoverParkTest.Views.CheckInPage"
              NavigationPage.HasBackButton="False">
-    <NavigationPage.TitleView>
-        <Label Text="Customer Check In" Style="{StaticResource NavigationTitle}" />
-    </NavigationPage.TitleView>
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -15,13 +12,18 @@
             <vld:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+    
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Source={StaticResource vm}, Path=LanguageText[customerCheckIn]}" Style="{StaticResource NavigationTitle}" />
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <StackLayout BindingContext="{StaticResource vm}">
             <StackLayout VerticalOptions="CenterAndExpand">
                 
                 <!--welcome message-->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
-                    <Label Text="Hi " />
+                    <Label Text="{Binding LanguageText[hi]}" />
                     <Label Text="{Binding Customer.GuestName}"
                         VerticalOptions="Center" 
                         HorizontalOptions="CenterAndExpand" />
@@ -30,7 +32,7 @@
                 <!--customer email check in input box-->
                 <Entry Text="{Binding Email}" 
                        HorizontalOptions="CenterAndExpand" 
-                       Placeholder="Please Enter Your Email (required)">
+                       Placeholder="{Binding LanguageText[enterEmail]}">
                     <Entry.Behaviors>
                         <vld:EmailValidationBehavior
                             Flags="ValidateOnUnfocusing"
@@ -55,7 +57,7 @@
                  />
             </StackLayout>
 
-            <Button Text="Check In" Command="{Binding CommandCheckIn}" Clicked="BtnCheckIn_Clicked"/>
+            <Button Text="{Binding LanguageText[checkIn]}" Command="{Binding CommandCheckIn}" Clicked="BtnCheckIn_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

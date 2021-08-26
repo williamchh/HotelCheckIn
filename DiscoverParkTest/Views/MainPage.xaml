@@ -4,18 +4,31 @@
              xmlns:vm="clr-namespace:DiscoverParkTest.ViewModels"
              xmlns:vld="http://xamarin.com/schemas/2020/toolkit"
              x:Class="DiscoverParkTest.MainPage">
-            <!--xmlns:behavior="clr-namespace:DiscoverParkTest.Behaviors"-->
+    <!--xmlns:behavior="clr-namespace:DiscoverParkTest.Behaviors"-->
 
-    <NavigationPage.TitleView>
-        <Label Text="Search Customer" Style="{StaticResource NavigationTitle}" />
-    </NavigationPage.TitleView>
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <vm:MainPageVM x:Key="vm" />
             <vld:InvertedBoolConverter x:Key="invertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Source={StaticResource vm}, Path=LanguageText[searchCustomer]}" Style="{StaticResource NavigationTitle}" />
+    </NavigationPage.TitleView>
+<!--Command="{Bingding AddNew}"Clicked="OnItemClicked"Clicked="OnItemClicked"Clicked="OnItemClicked"-->
+    <ContentPage.ToolbarItems>
+        
+        <ToolbarItem Order="Secondary"
+                     Text="English"
+                     Priority="1"
+                     Clicked="ToolbarItem_Clicked" />
+        <ToolbarItem Order="Secondary"
+                     Text="Chinese"
+                     Priority="2"
+                     Clicked="ToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
         <StackLayout Margin="15" BindingContext="{StaticResource vm}">
@@ -28,13 +41,13 @@
                            FontSize="18" VerticalOptions="Center">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Park Code" />
+                                <Span Text="{Binding LanguageText[parkCode]}" />
                                 <Span Text=" *" TextColor="Red" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
                     <Entry Grid.Column="1" Grid.Row="0" 
-                            Placeholder="Park Code" 
+                            Placeholder="{Binding LanguageText[parkCode]}" 
                             Text="{Binding ParkCode}">
                         <Entry.Behaviors>
                             <vld:TextValidationBehavior 
@@ -44,12 +57,12 @@
                                 IsValid="{Binding ParkCodeError}"/>
                         </Entry.Behaviors>
                     </Entry>
-                
+
                     <!--Invalid park code error message-->
                     <Label 
                            Grid.ColumnSpan="2" Grid.Row="1"
                            Style="{StaticResource ErrorLable}"
-                           Text="* Please Enter 4 Characters Park Code" 
+                           Text="{Binding LanguageText[parkCodeError]}" 
                            IsVisible="{Binding ParkCodeError, Converter={StaticResource invertBoolConverter}}" />
 
 
@@ -59,7 +72,7 @@
                            FontSize="18" VerticalOptions="Center">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Arriving Date" />
+                                <Span Text="{Binding LanguageText[arrivingDate]}" />
                                 <Span Text=" *" TextColor="Red" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -76,17 +89,17 @@
                                 IsValid="{Binding ArrivingDateError}" />
                         </Entry.Behaviors>
                     </Entry>
-                
+
                     <!--invalid arriving date error message-->
                     <Label 
                            Grid.ColumnSpan="2" Grid.Row="3"
                            Style="{StaticResource ErrorLable}"
-                           Text="* Date Format 20YY-MM-DD (Must After Year 2020)" 
+                           Text="{Binding LanguageText[arrivingDateError]}" 
                            IsVisible="{Binding ArrivingDateError, Converter={StaticResource invertBoolConverter}}" />
-                
+
                     <!--Submit button-->
                     <Button Grid.ColumnSpan="2" Grid.Row="4" 
-                            Text="Search" FontSize="15" 
+                            Text="{Binding LanguageText[search]}" FontSize="15" 
                             Clicked="BtnSearch_Clicked"
                             Command="{Binding SearchAndValidation}"/>
                 </Grid>
@@ -107,9 +120,6 @@
                         IsRunning="{Binding Indicator.IsVisible}" 
                         IsVisible="{Binding Indicator.IsVisible}"
                         HeightRequest="{Binding Indicator.HeightRequest}"/>
-   
-            
-
 
                     <!--Customers Observable Collection List View-->
                     <ListView 
@@ -122,7 +132,7 @@
                         <!--<ListView.Behaviors>
                             <behavior:ListViewBehavior />
                         </ListView.Behaviors>-->
-                
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>

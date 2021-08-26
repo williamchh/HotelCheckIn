@@ -10,6 +10,7 @@ using DiscoverParkTest.ViewModels.Utils;
 using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
 using DiscoverParkTest.Services;
+using System.Collections.Generic;
 
 namespace DiscoverParkTest.ViewModels
 {
@@ -21,9 +22,12 @@ namespace DiscoverParkTest.ViewModels
         private ResponseMessage message = new ResponseMessage();
         private ShowComponent indicator = new ShowComponent();
         private MainPageModel mainPageModel = new MainPageModel();
+        private Dictionary<string, string> languageText;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        IApiConsume _apiConsume = DependencyService.Get<IApiConsume>();
+
+        private readonly IApiConsume _apiConsume;
+        private readonly ILocale _locale;
 
         /// <summary>
         /// Main page constructor
@@ -34,6 +38,20 @@ namespace DiscoverParkTest.ViewModels
         {
             Customers = new ObservableCollection<CustomerDTO>();
             SearchAndValidation = new Command(SearchCustomerAction);
+
+            _apiConsume = DependencyService.Get<IApiConsume>();
+            _locale = DependencyService.Get<ILocale>();
+            LanguageText = _locale.GetText();
+        }
+
+        public Dictionary<string, string> LanguageText
+        {
+            get => languageText;
+            set
+            {
+                languageText = value;
+                OnPropertychanged();
+            }
         }
 
         // button command
@@ -148,7 +166,8 @@ namespace DiscoverParkTest.ViewModels
             // if not valid stop here
             if (!ValidateInputs())
             {
-                Message = new ResponseMessage(StatusMessages.InvalidInputs, 30);
+                //Message = new ResponseMessage(StatusMessages.InvalidInputs, 30);
+                Message = new ResponseMessage(LanguageText["errorFieldInputs"], 30);
                 return;
             }
 
@@ -201,7 +220,7 @@ namespace DiscoverParkTest.ViewModels
             if (response.StatusCode != System.Net.HttpStatusCode.BadRequest)
             {
                 Message = Customers.Count == 0 ?
-                    new ResponseMessage(StatusMessages.EmptyCustomers, 30) : new ResponseMessage();
+                    new ResponseMessage(LanguageText["noResultFound"], 30) : new ResponseMessage();
             }
         }
 

@@ -8,6 +8,7 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using DiscoverParkTest.Services;
+using System.Collections.Generic;
 
 namespace DiscoverParkTest.ViewModels
 {
@@ -17,14 +18,20 @@ namespace DiscoverParkTest.ViewModels
         private string email = string.Empty;
         private ResponseMessage message = new ResponseMessage();
         private ShowComponent indicator = new ShowComponent();
+        private readonly IApiConsume _apiConsume;
+        private readonly ILocale _locale;
+        private Dictionary<string, string> languageText;
 
-        IApiConsume _apiConsume = DependencyService.Get<IApiConsume>();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
 
         public CheckInPageVM()
         {
+            _apiConsume = DependencyService.Get<IApiConsume>();
             CommandCheckIn = new Command(CheckInWithEmail);
+            _locale = DependencyService.Get<ILocale>();
+            LanguageText = _locale.GetText();
         }
 
         /// <summary>
@@ -68,7 +75,7 @@ namespace DiscoverParkTest.ViewModels
             get => Message.IsVisible;
             set => Message = value
                     ? new ResponseMessage()
-                    : new ResponseMessage(StatusMessages.InvalidEmail, 50);
+                    : new ResponseMessage(LanguageText["emailFormatError"], 50);
         }
 
         // control server response message
@@ -89,6 +96,16 @@ namespace DiscoverParkTest.ViewModels
             set
             {
                 indicator = value;
+                OnPropertychanged();
+            }
+        }
+
+        public Dictionary<string, string> LanguageText
+        {
+            get => languageText;
+            set
+            {
+                languageText = value;
                 OnPropertychanged();
             }
         }
