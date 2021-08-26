@@ -12,7 +12,7 @@ namespace DiscoverParkTest.Services
 {
     public class LanguageText : ILocale
     {
-        private Dictionary<string, string> language;
+        private Dictionary<string, Dictionary<string, string>> language;
 
         public LanguageText()
         {
@@ -45,14 +45,14 @@ namespace DiscoverParkTest.Services
 
         }
 
-        public Dictionary<string, string> Language
+        public Dictionary<string, Dictionary<string, string>> Language
         {
             get => language;
             private set => language = value;
         }
 
         // return locale Dictionary
-        public Dictionary<string, string> GetText()
+        public Dictionary<string, Dictionary<string, string>> GetText()
         {
             return Language;
         }
@@ -62,7 +62,7 @@ namespace DiscoverParkTest.Services
         /// </summary>
         /// <param name="locale">locale language string</param>
         /// <returns></returns>
-        public async Task<Dictionary<string, string>> TextAsync(string locale)
+        public async Task<Dictionary<string, Dictionary<string, string>>> TextAsync(string locale)
         {
             using (var stream = await FileSystem.OpenAppPackageFileAsync($"{locale}.json"))
             {
@@ -73,8 +73,8 @@ namespace DiscoverParkTest.Services
 
                     string result = Regex.Replace(fileContents, "\n|\r", string.Empty);
 
-                    Dictionary<string, string> language = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-                    Console.WriteLine(fileContents);
+                    Dictionary<string, Dictionary<string, string>> language = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(result);
+                    //Console.WriteLine(fileContents);
                     return language;
                 }
             }

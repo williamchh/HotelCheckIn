@@ -1,17 +1,24 @@
 {
-  "searchCustomer": "查找客户",
-  "customerCheckIn": "客户签到",
-  "parkCode": "公园代码",
-  "arrivingDate": "到达日期",
-  "search": "查找",
-  "parkCodeError": "请输入4位公园代码",
-  "arrivingDateError": "日期格式20YY-MM-DD (必须晚于2020年)",
-  "noResultFound": "没找到结果, 请重试",
-  "errorFieldInputs": "请修改上述错误",
-  "hi": "你好 ",
-  "enterEmail": "请输入电邮地址",
-  "emailFormatError": "请使用正确电邮地址",
-  "customer": "客户",
-  "checkIn": "签到",
-  "email": "电邮地址"
+  "MainPage": {
+    "searchCustomer": "查找客户",
+    "parkCode": "公园代码",
+    "arrivingDate": "到达日期",
+    "search": "查找",
+    "parkCodeError": "请输入4位公园代码",
+    "arrivingDateError": "日期格式20YY-MM-DD (必须晚于2020年)",
+    "noResultFound": "没找到结果, 请重试",
+    "errorFieldInputs": "请修改上述错误",
+    "enterEmail": "请输入电邮地址",
+    "emailFormatError": "请使用正确电邮地址",
+    "customer": "客户",
+    "email": "电邮地址"
+  },
+
+  "CheckIn": {
+    "customerCheckIn": "客户签到",
+    "enterEmail": "请输入电邮地址",
+    "emailFormatError": "请使用正确电邮地址",
+    "checkIn": "签到",
+    "hi ": "你好"
+  }
 }

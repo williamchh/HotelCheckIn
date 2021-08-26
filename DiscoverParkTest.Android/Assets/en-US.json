@@ -1,17 +1,23 @@
 {
-  "searchCustomer": "Search Customer",
-  "customerCheckIn": "Customer Check In",
-  "parkCode": "Park Code",
-  "arrivingDate": "Arriving Date",
-  "search": "Search",
-  "parkCodeError": "* Please Enter 4 Characters Park code",
-  "arrivingDateError": "* Dateformat20YY-MM-DD (Must after year 2020)",
-  "noResultFound": "No Results Found",
-  "errorFieldInputs": "* Please Fix Error Inputs",
-  "hi": "Hi ",
-  "enterEmail": "Please Enter Your Email (Required)",
-  "emailFormatError": "Please use correct email",
-  "customer": "Customer",
-  "checkIn": "Check In",
-  "email": "Email"
+  "MainPage": {
+    "searchCustomer": "Search Customer",
+    "parkCode": "Park Code",
+    "arrivingDate": "Arriving Date",
+    "search": "Search",
+    "parkCodeError": "* Please Enter 4 Characters Park code",
+    "arrivingDateError": "* Dateformat20YY-MM-DD (Must after year 2020)",
+    "noResultFound": "No Results Found",
+    "errorFieldInputs": "* Please Fix Error Inputs",
+    "customer": "Customer",
+    "email": "Email"
+  },
+
+  "CheckIn": {
+    "customerCheckIn": "Customer Check In",
+    "enterEmail": "Please Enter Your Email (Required)",
+    "emailFormatError": "Please use correct email",
+    "checkIn": "Check In",
+    "hi": "Hi "
+
+  }
 }

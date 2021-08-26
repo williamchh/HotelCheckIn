@@ -31,7 +31,7 @@ namespace DiscoverParkTest.ViewModels
             _apiConsume = DependencyService.Get<IApiConsume>();
             CommandCheckIn = new Command(CheckInWithEmail);
             _locale = DependencyService.Get<ILocale>();
-            LanguageText = _locale.GetText();
+            LanguageText = (Dictionary<string, string>)_locale.GetText()["CheckIn"];
         }
 
         /// <summary>

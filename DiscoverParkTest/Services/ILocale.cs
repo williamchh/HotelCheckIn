@@ -8,8 +8,8 @@ namespace DiscoverParkTest.Services
     interface ILocale
     {
 
-        Task<Dictionary<string, string>> TextAsync(string locale);
-        Dictionary<string, string> GetText();
+        Task<Dictionary<string, Dictionary<string, string>>> TextAsync(string locale);
+        Dictionary<string, Dictionary<string, string>> GetText();
         void GetLanguagePack(string locale);
         void GetLanguagePack();
     }

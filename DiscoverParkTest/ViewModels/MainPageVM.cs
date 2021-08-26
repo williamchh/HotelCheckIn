@@ -41,7 +41,7 @@ namespace DiscoverParkTest.ViewModels
 
             _apiConsume = DependencyService.Get<IApiConsume>();
             _locale = DependencyService.Get<ILocale>();
-            LanguageText = _locale.GetText();
+            LanguageText = (Dictionary<string, string>)_locale.GetText()["MainPage"];
         }
 
         public Dictionary<string, string> LanguageText
